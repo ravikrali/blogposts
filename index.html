@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The AI Investment Decision Guide — Right-sizing AI for Real ROI</title>
+<meta name="description" content="A data-backed guide for companies deciding what AI investment actually earns its keep — by industry, size, and use case. Includes the Investment Ladder and a KPI scorecard." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    color-scheme: light;
+    /* palette */
+    --ink:#0A0F1C; --ink-2:#0F1A30; --ink-3:#16233D;
+    --paper:#FBFCFE; --paper-2:#EEF2F8; --card:#FFFFFF;
+    --line:#DCE3EE; --line-strong:#C3CDDD;
+    --blue:#2563EB; --blue-deep:#1E3A8A; --blue-soft:#E5EDFD;
+    --teal:#0D9488; --teal-bright:#14B8A6; --teal-soft:#D6F2EE;
+    --amber:#D97706; --amber-soft:#FBEBD3;
+    --red:#DC2626; --red-soft:#FBE3E3;
+    --text:#0E1726; --muted:#5C6B82; --faint:#8995A8;
+    /* type */
+    --display:"Space Grotesk", system-ui, sans-serif;
+    --body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+    --s--1:clamp(0.78rem,0.74rem + 0.18vw,0.9rem);
+    --s-0:clamp(1rem,0.95rem + 0.25vw,1.15rem);
+    --s-1:clamp(1.2rem,1.1rem + 0.5vw,1.45rem);
+    --s-2:clamp(1.45rem,1.25rem + 1vw,2rem);
+    --s-3:clamp(1.9rem,1.5rem + 2vw,3rem);
+    --s-4:clamp(2.4rem,1.7rem + 3.4vw,4.4rem);
+    --s-5:clamp(3rem,1.9rem + 5.4vw,6rem);
+    /* space */
+    --sp-section:clamp(3.5rem,2rem + 7vw,7rem);
+    --gap:clamp(1rem,0.7rem + 1.4vw,1.75rem);
+    --measure:68ch;
+    --radius:14px;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0; background:var(--paper); color:var(--text);
+    font-family:var(--body); font-size:var(--s-0); line-height:1.62;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3,h4{font-family:var(--display); line-height:1.08; letter-spacing:-0.02em; margin:0; font-weight:600;}
+  p{margin:0 0 1rem}
+  a{color:var(--blue); text-decoration:none}
+  .wrap{width:min(100% - 2.5rem, var(--maxw)); margin-inline:auto}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono); font-size:var(--s--1); letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); font-weight:500}
+
+  /* progress bar */
+  .progress{position:fixed; top:0; left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--blue),var(--teal)); z-index:60}
+
+  /* top nav */
+  header.nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(8px); background:color-mix(in srgb, var(--paper) 86%, transparent); border-bottom:1px solid var(--line)}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; padding:.7rem 0; gap:1rem}
+  .brand{font-family:var(--display); font-weight:700; font-size:1.02rem; letter-spacing:-0.02em; display:flex; align-items:center; gap:.55rem}
+  .brand .dot{width:11px; height:11px; border-radius:3px; background:conic-gradient(from 210deg,var(--blue),var(--teal),var(--amber),var(--blue))}
+  .nav-links{display:flex; gap:1.4rem; font-size:.85rem; font-weight:500}
+  .nav-links a{color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* hero */
+  .hero{background:var(--ink); color:#EAF0FA; position:relative; overflow:hidden; padding-block:clamp(3.5rem,2rem + 7vw,6.5rem)}
+  .hero::before{content:""; position:absolute; inset:0;
+    background-image:linear-gradient(transparent 95%, rgba(255,255,255,.045) 95%), linear-gradient(90deg,transparent 95%, rgba(255,255,255,.045) 95%);
+    background-size:34px 34px; mask-image:radial-gradient(120% 80% at 70% 0%, #000 30%, transparent 75%)}
+  .hero .wrap{position:relative}
+  .hero .eyebrow{color:#8FB0E6}
+  .hero h1{font-size:var(--s-5); font-weight:600; max-width:18ch; margin:.6rem 0 1.1rem; color:#fff}
+  .hero h1 em{font-style:normal; color:var(--teal-bright)}
+  .hero .lede{font-size:var(--s-1); color:#B9C6DC; max-width:54ch; font-family:var(--body); line-height:1.5}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:1.4rem 2.2rem; margin-top:2.4rem; font-family:var(--mono); font-size:var(--s--1); color:#9DB0CC}
+  .hero-meta b{color:#fff; font-weight:600}
+
+  /* divide bar */
+  .divide{margin-top:2.8rem; border:1px solid rgba(255,255,255,.14); border-radius:var(--radius); padding:1.3rem 1.4rem; background:rgba(255,255,255,.03)}
+  .divide .row{display:flex; height:30px; border-radius:7px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+  .divide .stall{background:repeating-linear-gradient(45deg,#26334d,#26334d 7px,#2b3a57 7px,#2b3a57 14px); flex:0 0 95%; display:flex; align-items:center; padding-left:.7rem; font-family:var(--mono); font-size:.72rem; color:#9DB0CC; letter-spacing:.04em}
+  .divide .value{background:linear-gradient(90deg,var(--teal),var(--teal-bright)); flex:0 0 5%; min-width:3px}
+  .divide .legend{display:flex; justify-content:space-between; margin-top:.7rem; font-family:var(--mono); font-size:.72rem; color:#9DB0CC}
+  .divide .legend b{color:var(--teal-bright)}
+
+  /* sections */
+  section{padding-block:var(--sp-section)}
+  .sec-head{max-width:var(--measure); margin-bottom:clamp(1.8rem,1rem + 2vw,3rem)}
+  .sec-head h2{font-size:var(--s-3); margin:.5rem 0 .8rem}
+  .sec-head p{color:var(--muted); font-size:var(--s-0); max-width:60ch; margin:0}
+  .knum{font-family:var(--mono); color:var(--blue); font-weight:600; font-size:var(--s--1); letter-spacing:.1em}
+
+  /* challenge grid */
+  .grid{display:grid; gap:var(--gap)}
+  .g-4{grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr))}
+  .g-3{grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr))}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.4rem 1.4rem 1.5rem; transition:transform .25s ease, box-shadow .25s ease; container-type:inline-size}
+  .card:hover{transform:translateY(-3px); box-shadow:0 14px 34px -22px rgba(16,33,64,.4)}
+  .card .tag{font-family:var(--mono); font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600}
+  .card h3{font-size:var(--s-1); margin:.7rem 0 .55rem}
+  .card p{color:var(--muted); font-size:.95rem; margin:0}
+  .card .stat{font-family:var(--mono); font-weight:600; color:var(--text); font-size:.92rem; margin-top:.9rem; padding-top:.8rem; border-top:1px dashed var(--line-strong)}
+  .accent-bar{height:4px; width:40px; border-radius:3px; margin-bottom:.2rem}
+  .b-red{background:var(--red)} .b-amber{background:var(--amber)} .b-blue{background:var(--blue)} .b-teal{background:var(--teal)}
+  .t-red{color:var(--red)} .t-amber{color:var(--amber)} .t-blue{color:var(--blue)} .t-teal{color:var(--teal)}
+
+  /* size tiers */
+  .tier{position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.6rem; overflow:hidden}
+  .tier::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px}
+  .tier.smb::before{background:var(--teal)} .tier.mid::before{background:var(--blue)} .tier.ent::before{background:var(--blue-deep)}
+  .tier h3{font-size:var(--s-1); margin-bottom:.2rem}
+  .tier .who{font-family:var(--mono); font-size:.74rem; color:var(--faint); text-transform:uppercase; letter-spacing:.1em; margin-bottom:1rem}
+  .tier ul{list-style:none; margin:0 0 1rem; padding:0}
+  .tier li{position:relative; padding-left:1.3rem; margin-bottom:.5rem; font-size:.93rem; color:var(--muted)}
+  .tier li::before{content:"→"; position:absolute; left:0; color:var(--blue); font-family:var(--mono)}
+  .tier .verdict{font-family:var(--mono); font-size:.82rem; font-weight:600; background:var(--paper-2); border-radius:8px; padding:.7rem .85rem; color:var(--text)}
+
+  /* matrix table */
+  .matrix{width:100%; border-collapse:collapse; font-size:.92rem; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden}
+  .matrix thead th{background:var(--ink); color:#DCE6F5; font-family:var(--mono); font-weight:500; font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; text-align:left; padding:.9rem 1rem}
+  .matrix td{padding:.95rem 1rem; border-top:1px solid var(--line); vertical-align:top}
+  .matrix tbody tr:hover{background:var(--paper-2)}
+  .matrix .uc{font-weight:600; color:var(--text)}
+  .matrix .pill{display:inline-block; font-family:var(--mono); font-size:.7rem; font-weight:600; padding:.2rem .5rem; border-radius:6px; letter-spacing:.03em; white-space:nowrap}
+  .pill.buy{background:var(--teal-soft); color:#0a6b62}
+  .pill.rag{background:var(--blue-soft); color:#1b4bb8}
+  .pill.ft{background:var(--amber-soft); color:#9a5500}
+  .pill.ml{background:#E7E1F7; color:#5b3aa6}
+  .pill.build{background:var(--red-soft); color:#a81f1f}
+  .roi-dots{font-family:var(--mono); letter-spacing:2px; color:var(--teal); font-weight:700}
+  .roi-dots .off{color:var(--line-strong)}
+  @media(max-width:720px){
+    .matrix thead{display:none}
+    .matrix, .matrix tbody, .matrix tr, .matrix td{display:block; width:100%}
+    .matrix tr{border-top:1px solid var(--line); padding:.4rem 0}
+    .matrix td{border:none; padding:.35rem 1rem; display:flex; justify-content:space-between; gap:1rem}
+    .matrix td::before{content:attr(data-l); font-family:var(--mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); flex:0 0 38%}
+    .matrix td.uc{font-size:1rem; padding-top:.8rem}
+    .matrix td.uc::before{content:""}
+  }
+
+  /* ladder (signature) */
+  .ladder-wrap{display:grid; grid-template-columns:1fr; gap:var(--gap); align-items:start}
+  @media(min-width:900px){.ladder-wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}
+  .ladder{display:flex; flex-direction:column-reverse; gap:8px}
+  .rung{display:flex; align-items:stretch; gap:0; border-radius:10px; overflow:hidden; border:1px solid var(--line); background:var(--card); transition:transform .2s}
+  .rung:hover{transform:translateX(4px)}
+  .rung .lvl{flex:0 0 46px; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:1.05rem; color:#fff}
+  .rung .body{padding:.7rem .9rem; flex:1}
+  .rung .body h4{font-family:var(--display); font-size:1rem; font-weight:600; margin-bottom:.15rem}
+  .rung .body p{font-size:.82rem; color:var(--muted); margin:0}
+  .rung .cost{flex:0 0 84px; display:flex; flex-direction:column; align-items:center; justify-content:center; border-left:1px dashed var(--line-strong); font-family:var(--mono); font-size:.66rem; color:var(--faint); text-align:center; padding:.3rem}
+  .rung .cost b{font-size:.92rem; color:var(--text); font-weight:600}
+  .l1{background:#0d9488}.l2{background:#1f9d8e}.l3{background:#2563EB}.l4{background:#2a55c4}.l5{background:#c4781f}.l6{background:#b5341f}
+  .ladder-axis{display:flex; flex-direction:column; justify-content:space-between; gap:1.2rem}
+  .axis-card{border:1px solid var(--line); border-radius:var(--radius); padding:1.1rem 1.2rem; background:var(--card)}
+  .axis-card .lab{font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:.3rem}
+  .axis-card p{margin:0; font-size:.9rem; color:var(--muted)}
+  .axis-card.go{border-left:4px solid var(--teal)}
+  .axis-card.stop{border-left:4px solid var(--red)}
+
+  /* alternatives */
+  .alt{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.4rem}
+  .alt h3{font-size:var(--s-1); display:flex; align-items:center; gap:.6rem; margin-bottom:.5rem}
+  .alt h3 .ic{font-family:var(--mono); font-size:.8rem; background:var(--paper-2); border-radius:7px; padding:.25rem .5rem; color:var(--blue); font-weight:600}
+  .alt p{font-size:.93rem; color:var(--muted); margin:0 0 .8rem}
+  .alt .when{font-family:var(--mono); font-size:.78rem; color:var(--text); background:var(--teal-soft); border-radius:8px; padding:.55rem .7rem}
+  .alt .when b{color:#0a6b62}
+
+  /* buy vs build callout */
+  .callout{background:var(--ink-2); color:#E7EEFA; border-radius:var(--radius); padding:clamp(1.5rem,1rem+2vw,2.4rem); display:grid; gap:1.4rem; grid-template-columns:1fr; margin-top:var(--gap)}
+  @media(min-width:780px){.callout{grid-template-columns:1.4fr 1fr; align-items:center}}
+  .callout h3{font-size:var(--s-2); color:#fff; margin-bottom:.6rem}
+  .callout p{color:#AEBED6; margin:0; font-size:.96rem}
+  .vs{display:flex; gap:1rem}
+  .vs .col{flex:1; text-align:center; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:1rem .7rem}
+  .vs .big{font-family:var(--mono); font-size:clamp(1.8rem,1.2rem+2vw,2.6rem); font-weight:600; line-height:1}
+  .vs .buy .big{color:var(--teal-bright)} .vs .build .big{color:#F0A35A}
+  .vs .lab{font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:#9DB0CC; margin-top:.5rem}
+
+  /* KPI scorecard */
+  .kpi-group{margin-bottom:var(--gap)}
+  .kpi-group > .gl{display:flex; align-items:center; gap:.7rem; margin-bottom:.8rem}
+  .kpi-group .gl span{font-family:var(--display); font-weight:600; font-size:var(--s-1)}
+  .kpi-group .gl .gn{font-family:var(--mono); font-size:.75rem; color:#fff; padding:.2rem .5rem; border-radius:6px; font-weight:600}
+  .kgrid{display:grid; gap:.7rem; grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:11px; padding:1rem 1.1rem; border-top:3px solid var(--line)}
+  .kpi .name{font-weight:600; font-size:.95rem; margin-bottom:.2rem}
+  .kpi .desc{font-size:.83rem; color:var(--muted); margin-bottom:.7rem}
+  .kpi .bench{font-family:var(--mono); font-size:.78rem; color:var(--text); display:flex; align-items:baseline; gap:.4rem}
+  .kpi .bench .tl{color:var(--faint); font-size:.68rem; text-transform:uppercase; letter-spacing:.06em}
+  .kpi .bench b{font-weight:600}
+  .kt-fin .kpi{border-top-color:var(--teal)} .kt-adopt .kpi{border-top-color:var(--blue)}
+  .kt-qual .kpi{border-top-color:var(--amber)} .kt-strat .kpi{border-top-color:var(--blue-deep)}
+  .gn-fin{background:var(--teal)} .gn-adopt{background:var(--blue)} .gn-qual{background:var(--amber)} .gn-strat{background:var(--blue-deep)}
+
+  /* takeaway */
+  .takeaway{background:var(--ink); color:#EAF0FA; text-align:center}
+  .takeaway .wrap{max-width:760px}
+  .takeaway .eyebrow{color:#8FB0E6}
+  .takeaway h2{font-size:var(--s-3); color:#fff; margin:.6rem 0 1.4rem}
+  .steps{display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr)); text-align:left; margin:0 0 2rem}
+  .step{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:.9rem}
+  .step .n{font-family:var(--mono); color:var(--teal-bright); font-weight:700; font-size:.8rem}
+  .step p{font-size:.85rem; color:#C6D2E6; margin:.3rem 0 0}
+  .punch{font-family:var(--display); font-size:var(--s-1); color:#fff; max-width:48ch; margin:0 auto 1.6rem; line-height:1.35}
+  .punch b{color:var(--teal-bright)}
+  .q{font-family:var(--body); color:#AEBED6; font-size:.95rem; font-style:italic}
+
+  /* footer */
+  footer{padding-block:2.6rem; border-top:1px solid var(--line); background:var(--paper-2)}
+  footer .wrap{display:flex; flex-wrap:wrap; gap:1rem 2rem; justify-content:space-between; align-items:flex-start}
+  .sources{font-size:.78rem; color:var(--faint); max-width:62ch; line-height:1.6}
+  .sources b{color:var(--muted)}
+  .tags{font-family:var(--mono); font-size:.78rem; color:var(--blue)}
+  .disclaimer{font-size:.74rem; color:var(--faint); margin-top:1.2rem; max-width:70ch; line-height:1.6}
+
+  /* reveal */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1; transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none}}
+
+  :focus-visible{outline:3px solid var(--blue); outline-offset:2px; border-radius:4px}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <div class="brand"><span class="dot"></span> AI Investment Decision Guide</div>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#challenges">Challenges</a>
+      <a href="#size">By Size</a>
+      <a href="#usecases">Use Cases</a>
+      <a href="#ladder">The Ladder</a>
+      <a href="#kpis">KPIs</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">A decision guide for leaders &middot; 2026</p>
+    <h1>You don't need a <em>massive</em> AI budget. You need the right-sized one.</h1>
+    <p class="lede">Spending is exploding. Returns aren't — yet. The companies winning with AI aren't the ones spending the most; they're the ones matching the spend to the problem. Here's how to tell the difference.</p>
+
+    <div class="hero-meta">
+      <span><b>~$644B</b> forecast GenAI spend, 2025 &nbsp;<span style="color:#6e82a3">(Gartner, +76% YoY)</span></span>
+      <span><b>88%</b> of orgs now use AI somewhere <span style="color:#6e82a3">(McKinsey)</span></span>
+      <span><b>~25%</b> of initiatives hit expected ROI <span style="color:#6e82a3">(IBM, 2,000 CEOs)</span></span>
+    </div>
+
+    <div class="divide" role="img" aria-label="About 95 percent of generative AI pilots show no measurable profit-and-loss impact; about 5 percent reach scaled value.">
+      <div class="row">
+        <div class="stall">95% — pilots stalled, no measurable P&amp;L impact</div>
+        <div class="value"></div>
+      </div>
+      <div class="legend">
+        <span>THE GENAI DIVIDE &middot; MIT NANDA, 2025</span>
+        <span><b>~5% reach real value</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section id="challenges">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="knum">01 / THE HARD PART</span>
+      <h2>Four challenges that kill AI projects</h2>
+      <p>Most failed initiatives die on one of these — usually before anyone admits it. The model is rarely the problem. RAND found AI projects fail at <b>~2&times; the rate of non-AI IT projects</b>, and ~84% of those failures trace back to leadership and organizational gaps, not technology.</p>
+    </div>
+    <div class="grid g-4">
+      <div class="card reveal">
+        <div class="accent-bar b-blue"></div>
+        <span class="tag t-blue">01 · Applicability</span>
+        <h3>Is this a real problem?</h3>
+        <p>Projects that start with "we should use AI" instead of "we have an expensive, repetitive workflow" are the root of most disappointment. Augmentation use cases succeed 2–3&times; more often than full-replacement bets.</p>
+        <div class="stat t-blue">Start from the pain, not the tech</div>
+      </div>
+      <div class="card reveal">
+        <div class="accent-bar b-amber"></div>
+        <span class="tag t-amber">02 · Feasibility</span>
+        <h3>Is the data ready?</h3>
+        <p>AI rarely fails on model quality. It fails on messy, disconnected data and brittle integration. Winning teams spend 50–70% of timeline on data readiness before touching a model.</p>
+        <div class="stat t-amber">Data &amp; skills top every blocker list (43% / 35%)</div>
+      </div>
+      <div class="card reveal">
+        <div class="accent-bar b-teal"></div>
+        <span class="tag t-teal">03 · ROI</span>
+        <h3>What's the true cost?</h3>
+        <p>The sticker price is the easy part. The real cost is ongoing: monitoring, retraining, governance, and the human review most serious use cases still need. Over half of finance execs can't clearly demonstrate AI ROI.</p>
+        <div class="stat t-teal">Budget the run cost, not just the build</div>
+      </div>
+      <div class="card reveal">
+        <div class="accent-bar b-red"></div>
+        <span class="tag t-red">04 · Adoption</span>
+        <h3>Will anyone use it?</h3>
+        <p>A working pilot nobody adopts has an ROI of zero. Adoption is a people problem: ~56% of failures involve lost executive sponsorship; nearly a third of workers admit to quietly resisting AI tools.</p>
+        <div class="stat t-red">Change management &gt; model tuning</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BY SIZE -->
+<section id="size" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="knum">02 / RIGHT-SIZING</span>
+      <h2>Match the investment to your size</h2>
+      <p>"Serious about AI" does not mean big budgets and a custom platform team. For most companies, the right move is to buy and integrate — not build. Even at enterprise scale, training a model from scratch is almost never the answer.</p>
+    </div>
+    <div class="grid g-3">
+      <div class="tier smb reveal">
+        <h3>Small &amp; mid-size</h3>
+        <div class="who">SMB · &lt;200 staff</div>
+        <ul>
+          <li>The AI you need is already inside the SaaS you pay for — CRM, helpdesk, productivity suite</li>
+          <li>Turn on those features first; measure before buying anything new</li>
+          <li>Your "AI strategy" is mostly procurement and adoption</li>
+        </ul>
+        <div class="verdict">Spend: minimal. Vendor-reported Copilot ROI for SMBs runs as high as 353%.</div>
+      </div>
+      <div class="tier mid reveal">
+        <h3>Mid-market</h3>
+        <div class="who">200–5,000 staff</div>
+        <ul>
+          <li>Off-the-shelf tools plus light customization</li>
+          <li>Retrieval over your own documents (RAG) starts to pay off here</li>
+          <li>Ground a general model in your policies and knowledge base — no training from scratch</li>
+        </ul>
+        <div class="verdict">Spend: moderate. One or two scoped use cases, not a platform.</div>
+      </div>
+      <div class="tier ent reveal">
+        <h3>Enterprise</h3>
+        <div class="who">5,000+ staff</div>
+        <ul>
+          <li>A portfolio: a few higher-investment bets where you own proprietary data and scale</li>
+          <li>Majority should still be buy-and-integrate</li>
+          <li>Firms investing $10M+ across units are ~71% likely to see significant gains vs 52% below that</li>
+        </ul>
+        <div class="verdict">Spend: tiered. JPMorgan runs 450+ scoped use cases — not one giant model.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="usecases">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="knum">03 / USE-CASE MAP</span>
+      <h2>What each use case actually needs</h2>
+      <p>"AI" isn't only chatbots, and the right investment is different for each job. ROI shown is a rough relative signal for a well-scoped deployment — not a guarantee. Match the approach to the work.</p>
+    </div>
+    <div class="reveal" style="overflow-x:auto">
+    <table class="matrix">
+      <thead>
+        <tr><th>Use case</th><th>Best-fit approach</th><th>What it requires</th><th>Relative ROI</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="uc" data-l="Use case">Customer service &amp; support</td>
+          <td data-l="Approach"><span class="pill rag">RAG chatbot</span> <span class="pill buy">Buy</span></td>
+          <td data-l="Requires">A clean knowledge base + ticketing integration</td>
+          <td data-l="ROI"><span class="roi-dots">●●●●<span class="off">●</span></span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">Document-heavy work<br><small style="color:var(--faint)">legal, insurance, claims, finance</small></td>
+          <td data-l="Approach"><span class="pill rag">RAG</span> <span class="pill ft">Fine-tune (narrow)</span></td>
+          <td data-l="Requires">Extraction + summarization; human-in-the-loop review</td>
+          <td data-l="ROI"><span class="roi-dots">●●●●●</span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">Marketing &amp; content</td>
+          <td data-l="Approach"><span class="pill buy">Off-the-shelf</span></td>
+          <td data-l="Requires">Brand guardrails + editorial review. Rarely worth a build.</td>
+          <td data-l="ROI"><span class="roi-dots">●●●<span class="off">●●</span></span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">Forecasting, logistics, maintenance</td>
+          <td data-l="Approach"><span class="pill ml">Classic ML</span></td>
+          <td data-l="Requires">Structured historical data — not an LLM at all</td>
+          <td data-l="ROI"><span class="roi-dots">●●●●<span class="off">●</span></span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">Software development</td>
+          <td data-l="Approach"><span class="pill buy">Coding assistant</span></td>
+          <td data-l="Requires">Seat licenses + adoption; measure on shipped work</td>
+          <td data-l="ROI"><span class="roi-dots">●●●●<span class="off">●</span></span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">Fraud, risk, anomaly detection</td>
+          <td data-l="Approach"><span class="pill ml">ML</span> <span class="pill ft">+ feedback loop</span></td>
+          <td data-l="Requires">Labeled signals; analyst corrections fed back in</td>
+          <td data-l="ROI"><span class="roi-dots">●●●●<span class="off">●</span></span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">Healthcare &amp; regulated intake</td>
+          <td data-l="Approach"><span class="pill rag">RAG</span> <span class="pill buy">Buy</span></td>
+          <td data-l="Requires">Heavy governance &amp; oversight — budget for that, not just the model</td>
+          <td data-l="ROI"><span class="roi-dots">●●●<span class="off">●●</span></span></td>
+        </tr>
+        <tr>
+          <td class="uc" data-l="Use case">A frontier, proprietary differentiator</td>
+          <td data-l="Approach"><span class="pill build">Custom build</span></td>
+          <td data-l="Requires">Unique data + scale + a team to run it forever. &lt;1% of companies.</td>
+          <td data-l="ROI"><span class="roi-dots">●●<span class="off">●●●</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-family:var(--mono); font-size:.74rem; color:var(--faint); margin-top:.9rem">Legend: Customer-service AI interactions cost ~$0.25–0.50 vs $3–6 for a human agent; well-built support bots deflect 40–70% of routine volume.</p>
+  </div>
+</section>
+
+<!-- LADDER -->
+<section id="ladder" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="knum">04 / THE SIGNATURE MOVE</span>
+      <h2>The Investment Ladder</h2>
+      <p>Climb only as high as a real constraint forces you to. Cost, complexity, and time-to-value rise with every rung — but the strongest, fastest ROI lives at the bottom. The expensive top is where the headlines are; the returns are at the floor.</p>
+    </div>
+
+    <div class="ladder-wrap">
+      <div class="ladder reveal" aria-label="Investment ladder from rung 1 lowest cost to rung 6 highest cost">
+        <div class="rung">
+          <div class="lvl l1">1</div>
+          <div class="body"><h4>Use AI already in your software</h4><p>Features in your CRM, helpdesk, office suite. Cheapest, fastest.</p></div>
+          <div class="cost"><b>$</b>days</div>
+        </div>
+        <div class="rung">
+          <div class="lvl l2">2</div>
+          <div class="body"><h4>API access + good prompting</h4><p>A frontier model behind your workflow. Solves a surprising amount.</p></div>
+          <div class="cost"><b>$</b>days</div>
+        </div>
+        <div class="rung">
+          <div class="lvl l3">3</div>
+          <div class="body"><h4>RAG over your own data</h4><p>Grounds answers in your reality — no retraining. Deployable in weeks.</p></div>
+          <div class="cost"><b>$$</b>weeks</div>
+        </div>
+        <div class="rung">
+          <div class="lvl l4">4</div>
+          <div class="body"><h4>Small / open-source LLM, self-hosted</h4><p>For cost-at-scale or data-privacy reasons — not prestige.</p></div>
+          <div class="cost"><b>$$$</b>months</div>
+        </div>
+        <div class="rung">
+          <div class="lvl l5">5</div>
+          <div class="body"><h4>Fine-tune a small model</h4><p>One narrow, repetitive task where wording and precision matter.</p></div>
+          <div class="cost"><b>$$$</b>months</div>
+        </div>
+        <div class="rung">
+          <div class="lvl l6">6</div>
+          <div class="body"><h4>Train a custom foundation model</h4><p>For &gt;99% of companies: never.</p></div>
+          <div class="cost"><b>$$$$+</b>quarters</div>
+        </div>
+      </div>
+
+      <div class="ladder-axis reveal">
+        <div class="axis-card go">
+          <div class="lab">▼ The floor — where ROI lives</div>
+          <p>Rungs 1–3 cover most real needs. Fastest payback, lowest risk, easiest to maintain. Customer-service automation can reach signed-off ROI in as little as two weeks.</p>
+        </div>
+        <div class="axis-card">
+          <div class="lab">↑ What rises as you climb</div>
+          <p>Cost, integration burden, maintenance, governance load, time-to-value, and the size of the team needed to keep it alive.</p>
+        </div>
+        <div class="axis-card stop">
+          <div class="lab">▲ The ceiling — handle with care</div>
+          <p>Rungs 5–6 are justified only by a hard constraint — privacy, accuracy, or scale economics. Don't climb for prestige. Most "we built our own" stories underperform buying.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- buy vs build -->
+    <div class="callout reveal">
+      <div>
+        <h3>The buy-vs-build reality</h3>
+        <p>MIT's research is blunt: purchasing from specialized vendors and partnering succeeds about two-thirds of the time, while internal builds succeed at roughly a third of that rate. "Almost everywhere we went, enterprises were trying to build their own tool" — and the data showed bought solutions delivered more reliably.</p>
+      </div>
+      <div class="vs">
+        <div class="col buy"><div class="big">~67%</div><div class="lab">Buy &amp; partner<br>success</div></div>
+        <div class="col build"><div class="big">~⅓</div><div class="lab">of that for<br>internal builds</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALTERNATIVES -->
+<section id="alternatives">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="knum">05 / BEFORE YOU GO BIG</span>
+      <h2>The alternatives that usually win</h2>
+      <p>Four leaner paths beat "build something massive" for almost every use case. Each gives you most of the value at a fraction of the cost and risk.</p>
+    </div>
+    <div class="grid g-4">
+      <div class="alt reveal">
+        <h3><span class="ic">RAG</span> Retrieval</h3>
+        <p>Gives a model your knowledge without the cost or staleness of retraining. Update or remove data anytime; answers stay current and grounded.</p>
+        <div class="when"><b>Use when:</b> answers must reflect your docs, policies, or live data.</div>
+      </div>
+      <div class="alt reveal">
+        <h3><span class="ic">SLM</span> Small LLMs</h3>
+        <p>Cheaper to run, easier to host privately, good enough for most narrow tasks. The big 2025–26 shift: you rarely need the largest model.</p>
+        <div class="when"><b>Use when:</b> cost-at-scale or data residency drives the decision.</div>
+      </div>
+      <div class="alt reveal">
+        <h3><span class="ic">SaaS</span> Off-the-shelf copilots</h3>
+        <p>Someone else maintains the model, ships improvements, and absorbs the risk. You focus entirely on adoption and workflow fit.</p>
+        <div class="when"><b>Use when:</b> the task is common and a vendor already solves it.</div>
+      </div>
+      <div class="alt reveal">
+        <h3><span class="ic">FT</span> Fine-tuning</h3>
+        <p>Adapt a small model to one repeatable task — tone, format, niche terminology — at a fraction of the cost of building from scratch.</p>
+        <div class="when"><b>Use when:</b> a narrow task needs consistent, specialized output.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section id="kpis" style="background:var(--ink); color:#E7EEFA">
+  <div class="wrap">
+    <div class="sec-head reveal" style="max-width:64ch">
+      <span class="knum" style="color:#8FB0E6">06 / THE DECISION DASHBOARD</span>
+      <h2 style="color:#fff">KPIs to gate every AI investment</h2>
+      <p style="color:#AEBED6">Define these <em>before</em> you approve a project — the 5% that succeed set success metrics on day one. Track across four lenses. If a use case can't move numbers in at least the first two, it isn't ready to fund.</p>
+    </div>
+
+    <div class="kpi-group reveal kt-fin">
+      <div class="gl"><span class="gn gn-fin">A</span><span style="color:#fff">Financial</span></div>
+      <div class="kgrid">
+        <div class="kpi"><div class="name">Payback period</div><div class="desc">Months to recover total cost.</div><div class="bench"><span class="tl">Target</span><b>&lt; 12 months</b></div></div>
+        <div class="kpi"><div class="name">ROI multiple</div><div class="desc">Net value ÷ total cost of ownership.</div><div class="bench"><span class="tl">Benchmark</span><b>$3–4 per $1</b></div></div>
+        <div class="kpi"><div class="name">Cost per outcome</div><div class="desc">Per resolved ticket, doc, or decision — not per token.</div><div class="bench"><span class="tl">Beats human</span><b>by 5–20×</b></div></div>
+        <div class="kpi"><div class="name">TCO coverage</div><div class="desc">Is run cost (monitoring, retraining, review) budgeted?</div><div class="bench"><span class="tl">Data effort</span><b>50–70%</b></div></div>
+      </div>
+    </div>
+
+    <div class="kpi-group reveal kt-adopt">
+      <div class="gl"><span class="gn gn-adopt">B</span><span style="color:#fff">Adoption &amp; usage</span></div>
+      <div class="kgrid">
+        <div class="kpi"><div class="name">Active usage rate</div><div class="desc">% of target users using it weekly.</div><div class="bench"><span class="tl">Healthy</span><b>&gt; 60%</b></div></div>
+        <div class="kpi"><div class="name">Containment / deflection</div><div class="desc">% handled with no human touch.</div><div class="bench"><span class="tl">Mature</span><b>40–70%</b></div></div>
+        <div class="kpi"><div class="name">Workflow integration</div><div class="desc">Does it live where the work happens?</div><div class="bench"><span class="tl">Pass</span><b>Yes / No</b></div></div>
+        <div class="kpi"><div class="name">Productivity lift</div><div class="desc">Output or throughput per person.</div><div class="bench"><span class="tl">Typical</span><b>+13–33%</b></div></div>
+      </div>
+    </div>
+
+    <div class="kpi-group reveal kt-qual">
+      <div class="gl"><span class="gn gn-qual">C</span><span style="color:#fff">Quality &amp; trust</span></div>
+      <div class="kgrid">
+        <div class="kpi"><div class="name">Accuracy vs SLO</div><div class="desc">Against a written target.</div><div class="bench"><span class="tl">Example SLO</span><b>&gt;85%, &lt;5s</b></div></div>
+        <div class="kpi"><div class="name">Escalation / override</div><div class="desc">How often humans must step in.</div><div class="bench"><span class="tl">Trend</span><b>↓ over time</b></div></div>
+        <div class="kpi"><div class="name">Error / hallucination rate</div><div class="desc">On sampled outputs.</div><div class="bench"><span class="tl">Direction</span><b>Falling</b></div></div>
+        <div class="kpi"><div class="name">Governance coverage</div><div class="desc">Logging, oversight, audit trail in place.</div><div class="bench"><span class="tl">Pass</span><b>Yes / No</b></div></div>
+      </div>
+    </div>
+
+    <div class="kpi-group reveal kt-strat" style="margin-bottom:0">
+      <div class="gl"><span class="gn gn-strat">D</span><span style="color:#fff">Strategic &amp; portfolio</span></div>
+      <div class="kgrid">
+        <div class="kpi"><div class="name">Pilot-to-production rate</div><div class="desc">% of pilots that actually ship.</div><div class="bench"><span class="tl">Leaders</span><b>~62% vs 12%</b></div></div>
+        <div class="kpi"><div class="name">Time-to-impact</div><div class="desc">From start to measurable value.</div><div class="bench"><span class="tl">Leaders</span><b>9–12 months</b></div></div>
+        <div class="kpi"><div class="name">Spend concentration</div><div class="desc">Is budget aligned to core functions?</div><div class="bench"><span class="tl">Value from core</span><b>~62%</b></div></div>
+        <div class="kpi"><div class="name">Abandonment rate</div><div class="desc">% of POCs scrapped pre-production.</div><div class="bench"><span class="tl">Industry avg</span><b>~46% (cut it)</b></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAKEAWAY -->
+<section class="takeaway">
+  <div class="wrap">
+    <p class="eyebrow">The one-line guide</p>
+    <h2>Start small. Measure honestly. Climb only when forced.</h2>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><p>Pick one painful, measurable workflow.</p></div>
+      <div class="step"><span class="n">02</span><p>Pilot at the lowest rung that could plausibly work.</p></div>
+      <div class="step"><span class="n">03</span><p>Gate it on KPIs set before you build.</p></div>
+      <div class="step"><span class="n">04</span><p>Scale only what proves out. Cut the rest fast.</p></div>
+    </div>
+    <p class="punch">Massive AI investment is a tool for a specific set of problems — <b>not a badge of seriousness</b>. The companies winning with AI aren't spending the most. They're matching the spend to the problem.</p>
+    <p class="q">What's been the bigger barrier in your organization — proving ROI, or getting people to actually adopt what works?</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="sources">
+      <b>Sources &amp; figures:</b> MIT Project NANDA — <i>The GenAI Divide</i> (2025); S&amp;P Global Market Intelligence, <i>Voice of the Enterprise</i> (2025); RAND Corporation (2024); Gartner (2024–25); Boston Consulting Group (2025); McKinsey <i>State of AI</i> (2025); IBM CEO study (2025); Microsoft (2024); and published deployment figures from Klarna, JPMorgan, and DoorDash. Statistics are drawn from public reports as of mid-2026.
+      <div class="disclaimer">A note on the numbers: headline failure rates (80–95%) are contested and depend heavily on how "success" is defined — and traditional enterprise IT projects fail at broadly similar rates. Treat these as directional signals for decision-making, not precise forecasts. This guide is general information, not investment, legal, or financial advice.</div>
+    </div>
+    <div class="tags">#AIStrategy #EnterpriseAI<br>#DataGovernance #AIGovernance #ROI</div>
+  </div>
+</footer>
+
+<script>
+  // progress bar
+  const prog = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    prog.style.width = pct + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // reveal on scroll
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
